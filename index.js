@@ -26,13 +26,20 @@ async function run() {
     const servicesCollection = database.collection('services');
 
     app.post('/services', async (req, res) => {
-      const service=req.body;
+      const service = req.body;
       console.log('Post Hited', service);
-      const result=await servicesCollection.insertOne(service);
+      const result = await servicesCollection.insertOne(service);
       console.log(result);
       res.json(result);
 
     })
+
+    app.get('/services', async (req, res) => {
+      const cursor = servicesCollection.find({});
+      const services = await cursor.toArray();
+      res.send(services);
+    });
+
   } finally {
     // await client.close();
   }
